@@ -1,42 +1,62 @@
-//#include <sys/types>
 #include <unistd.h>
 #include<stdio.h>
 #include <time.h>
+#include<string.h>
+#include<stdlib.h>
 
 
-int main(int argc)
+//void Split(const char* string, char*** strings);
+
+int main()
 {
-  long int timea = time(NULL);
-  long int cur_time;
-  int a = 0;
-  int stat = 0;
-  int n = 0;
-  int id = getpid();
-
-  printf("fork\n");
-  //execl("ls"," ","Hello", "World!", NULL);
-  while(n <= 3)
-  {
-    fork();
-    if(getpid() != id)
+    int time0 = time(NULL);
+    FILE* fp = fopen("com.txt", "r");
+    char* str = malloc(sizeof(char)*100);
+    int i = 0;
+    int id = getpid();
+    while(fgets(str, 50, fp) != NULL)
     {
-      if(n == 0)
-      execl("hello","1","Hello", "World!", NULL);
-      if(n == 1)
-      execl("hello1","1","Hello", "World!", NULL);
-      if(n == 2)
-      execl("hello2","1","Hello", "World!", NULL);
-      if(n == 3)
-      execl("hello3","1","Hello", "World!", NULL);
+        char strings[200][100];
+        char* name = malloc(sizeof(char)*100);
+        char* time_str = malloc(sizeof(char)*100);
+        while(str[i] != ' ')
+        {
+            name[i] = str[i];
+            i++;
+        }
+        i++;
+        while(str[i] != ' ')
+        {
+            time_str[i] = str[i];
+            i++;
+        }
+        int k = 0, j = 0;
+        while(str[i] != '\n' && str[i] != '\0')
+        {
+            if(str[i] == ' ')
+            {
+                j++;
+                k = 0;
+            }
+            strings[j][k] = str[i];
+            k++;
+            i++;
+        }
+        int ntime = atoi(time_str);
 
+        //Split(str + i, strings);
+        fork();
+        if(getpid() != id)
+        {
+
+            while(time(NULL)- time0 < ntime)
+            {}
+              execv(name,  strings);
+
+        }
     }
-    else
-      n++;
-  }
-  //execl("hello","1","Hello", "World!", NULL);
-  printf("jlkdqwasjeafsk\n");
-  scanf("%d", &a);
-  cur_time = time(NULL);
-  printf("%ld", cur_time - timea);
-  return 0;
+
+
+
 }
+
