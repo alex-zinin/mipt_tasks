@@ -1,0 +1,42 @@
+//#include <sys/types>
+#include <unistd.h>
+#include<stdio.h>
+#include <time.h>
+
+
+int main(int argc)
+{
+  long int timea = time(NULL);
+  long int cur_time;
+  int a = 0;
+  int stat = 0;
+  int n = 0;
+  int id = getpid();
+
+  printf("fork\n");
+  //execl("ls"," ","Hello", "World!", NULL);
+  while(n <= 3)
+  {
+    fork();
+    if(getpid() != id)
+    {
+      if(n == 0)
+      execl("hello","1","Hello", "World!", NULL);
+      if(n == 1)
+      execl("hello1","1","Hello", "World!", NULL);
+      if(n == 2)
+      execl("hello2","1","Hello", "World!", NULL);
+      if(n == 3)
+      execl("hello3","1","Hello", "World!", NULL);
+
+    }
+    else
+      n++;
+  }
+  //execl("hello","1","Hello", "World!", NULL);
+  printf("jlkdqwasjeafsk\n");
+  scanf("%d", &a);
+  cur_time = time(NULL);
+  printf("%ld", cur_time - timea);
+  return 0;
+}
